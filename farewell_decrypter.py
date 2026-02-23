@@ -115,20 +115,30 @@ def confirm(msg: str, default: bool = True) -> bool:
 
 # ============ Decryption ============
 
-def decrypt_aes_gcm_packed(encrypted_hex: str, sk_share_hex: str, s_prime_hex: str) -> Optional[str]:
+def _parse_int(value: str) -> int:
+    """Parse an integer from hex (0x-prefixed or a-f digits) or decimal string."""
+    if value.startswith('0x') or value.startswith('0X'):
+        return int(value, 16)
+    if value.isdigit():
+        return int(value, 10)
+    return int(value, 16)
+
+
+def decrypt_aes_gcm_packed(encrypted_hex: str, sk_share_str: str, s_prime_str: str) -> Optional[str]:
     """
     Decrypt AES-128-GCM packed payload using skShare XOR s'.
 
     Packed format (from lib/aes.ts): 0x + IV(12 bytes) + ciphertext(with GCM tag)
     Key derivation: sk = skShare XOR s' (128-bit), converted to 16-byte big-endian.
+
+    skShare may be decimal (from BigInt.toString()) or hex (with/without 0x prefix).
     """
-    # Strip 0x prefix
+    # Strip 0x prefix for encrypted payload (always hex)
     encrypted = encrypted_hex[2:] if encrypted_hex.startswith('0x') else encrypted_hex
-    sk_share = sk_share_hex[2:] if sk_share_hex.startswith('0x') else sk_share_hex
-    s_prime = s_prime_hex[2:] if s_prime_hex.startswith('0x') else s_prime_hex
 
     # Compute sk = skShare XOR s' (as 128-bit integers)
-    sk_int = int(sk_share, 16) ^ int(s_prime, 16)
+    # skShare may be decimal or hex; s' is typically hex
+    sk_int = _parse_int(sk_share_str.strip()) ^ _parse_int(s_prime_str.strip())
 
     # Convert to 16-byte key (big-endian, matching lib/aes.ts bigintToKey16)
     key = sk_int.to_bytes(16, byteorder='big')

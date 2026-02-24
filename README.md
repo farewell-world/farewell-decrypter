@@ -30,7 +30,7 @@ Sender (registration)                    Recipient (after release)
 
 ```bash
 # Clone the repository
-git clone https://github.com/pdroalves/farewell-decrypter.git
+git clone https://github.com/farewell-world/farewell-decrypter.git
 cd farewell-decrypter
 
 # Create virtual environment (recommended)
@@ -128,6 +128,6 @@ BSD 3-Clause License. See [LICENSE](LICENSE).
 
 ## Related Projects
 
-- [Farewell UI](https://github.com/pdroalves/farewell) — Web application
-- [Farewell Core](https://github.com/pdroalves/farewell-core) — Smart contracts
-- [Farewell Claimer](https://github.com/pdroalves/farewell-claimer) — Email sending & proof generation tool
+- [Farewell UI](https://github.com/farewell-world/farewell) — Web application
+- [Farewell Core](https://github.com/farewell-world/farewell-core) — Smart contracts
+- [Farewell Claimer](https://github.com/farewell-world/farewell-claimer) — Email sending & proof generation tool

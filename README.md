@@ -1,5 +1,8 @@
 # Farewell Message Decrypter
 
+[![CI](https://github.com/farewell-world/farewell-decrypter/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/farewell-world/farewell-decrypter/actions/workflows/ci.yml?query=branch%3Amain)
+
+
 A standalone CLI tool for **recipients** to decrypt messages from the [Farewell protocol](https://farewell.world).
 
 ## How It Works

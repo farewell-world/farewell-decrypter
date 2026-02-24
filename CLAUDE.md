@@ -79,16 +79,16 @@ def main_flow(filepath, output_path=None):
 
 - **Packed format**: `0x` + IV (12 bytes) + ciphertext + GCM tag (16 bytes)
 - **Key derivation**: `sk = skShare XOR s'` (128-bit integers, big-endian to 16-byte key)
-- This matches the format in `farewell/packages/site/lib/aes.ts`
+- This matches the AES encryption format used by the [Farewell UI](https://farewell.world)
 
 ## Cross-Project Compatibility: Farewell UI
 
-**IMPORTANT**: The `load_claim_package()` function parses the JSON exported from the Farewell UI's Claim tab (`ClaimPackageJson` in `Farewell.tsx`, located at `../farewell/packages/site/components/Farewell.tsx`). When modifying the claim package parsing:
+**IMPORTANT**: The `load_claim_package()` function parses the JSON exported from the [Farewell UI](https://farewell.world) Claim tab. When modifying the claim package parsing:
 
 1. The claim package is detected by `type: "farewell-claim-package"`
 2. Required fields for decryption: `skShare` (hex), `encryptedPayload` (hex)
 3. AES-128-GCM packed format: `0x` + IV(12 bytes) + ciphertext+GCM-tag; key = `skShare XOR s'` as 16-byte big-endian
-4. If you change field names or the decryption logic, update `Farewell.tsx` and `farewell-claimer` accordingly
+4. If you change field names or the decryption logic, update the Farewell UI and [farewell-claimer](https://github.com/farewell-world/farewell-claimer) accordingly
 
 ## Testing
 

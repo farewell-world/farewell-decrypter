@@ -128,6 +128,6 @@ BSD 3-Clause License. See [LICENSE](LICENSE).
 
 ## Related Projects
 
-- [Farewell UI](https://github.com/farewell-world/farewell) — Web application
+- [Farewell UI](https://farewell.world) — Web application
 - [Farewell Core](https://github.com/farewell-world/farewell-core) — Smart contracts
 - [Farewell Claimer](https://github.com/farewell-world/farewell-claimer) — Email sending & proof generation tool

@@ -44,6 +44,8 @@ except ImportError:
     print("Please install cryptography: pip install cryptography")
     sys.exit(1)
 
+import hashlib
+
 
 # ============ UI Helpers ============
 
@@ -111,6 +113,14 @@ def confirm(msg: str, default: bool = True) -> bool:
     if not result:
         return default
     return result in ('y', 'yes')
+
+
+# ============ Key Derivation ============
+
+def passphrase_to_s_prime(passphrase: str) -> str:
+    """SHAKE128(passphrase) → 128 bits → hex string with 0x prefix."""
+    h = hashlib.shake_128(passphrase.encode('utf-8'))
+    return '0x' + h.hexdigest(16)  # 16 bytes = 128 bits
 
 
 # ============ Decryption ============
@@ -231,16 +241,32 @@ def main_flow(filepath: str, output_path: Optional[str] = None):
         content_hash = data['contentHash']
         print_info(f"  Content hash: {content_hash[:20]}...")
 
+    # Determine key derivation mode from cryptoScheme
+    crypto_scheme = data.get('cryptoScheme', '')
+    passphrase_hint = data.get('passphraseHint', '')
+    use_passphrase = ';' in crypto_scheme and 'SHAKE128' in crypto_scheme
+
+    if crypto_scheme:
+        print_info(f"  Crypto scheme: {crypto_scheme}")
+
     # Ask for s'
     print_section("AES Decryption")
     print_info("This claim package contains an encrypted message.")
-    print_info("You need the off-chain secret (s') to decrypt it.")
-    print_info("The recipient should have received s' from the message sender.")
-    print()
 
-    s_prime = prompt("Enter s' (hex, starts with 0x)")
-    if not s_prime.startswith('0x'):
-        s_prime = '0x' + s_prime
+    if use_passphrase:
+        print_info("This message was encrypted with a passphrase.")
+        if passphrase_hint:
+            print_info(f"  Passphrase hint: {Fore.YELLOW}{passphrase_hint}{Style.RESET_ALL}")
+        print()
+        passphrase = prompt("Enter passphrase")
+        s_prime = passphrase_to_s_prime(passphrase)
+    else:
+        print_info("You need the off-chain secret (s') to decrypt it.")
+        print_info("The recipient should have received s' from the message sender.")
+        print()
+        s_prime = prompt("Enter s' (hex, starts with 0x)")
+        if not s_prime.startswith('0x'):
+            s_prime = '0x' + s_prime
 
     # Decrypt
     message = decrypt_aes_gcm_packed(data['encryptedPayload'], data['skShare'], s_prime)

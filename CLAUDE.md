@@ -87,8 +87,10 @@ def main_flow(filepath, output_path=None):
 
 1. The claim package is detected by `type: "farewell-claim-package"`
 2. Required fields for decryption: `skShare` (hex), `encryptedPayload` (hex)
-3. AES-128-GCM packed format: `0x` + IV(12 bytes) + ciphertext+GCM-tag; key = `skShare XOR s'` as 16-byte big-endian
-4. If you change field names or the decryption logic, update the Farewell UI and [farewell-claimer](https://github.com/farewell-world/farewell-claimer) accordingly
+3. Optional fields: `recipients`, `contentHash`, `subject`, `owner`, `senderName`, `messageIndex`
+4. `senderName` (string, optional) — display name of the farewell sender; used for user-facing labels when present, falls back to `owner` address otherwise
+5. AES-128-GCM packed format: `0x` + IV(12 bytes) + ciphertext+GCM-tag; key = `skShare XOR s'` as 16-byte big-endian
+6. If you change field names or the decryption logic, update the Farewell UI and [farewell-claimer](https://github.com/farewell-world/farewell-claimer) accordingly
 
 ## Testing
 

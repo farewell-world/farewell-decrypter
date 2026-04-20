@@ -84,14 +84,15 @@ The tool accepts the **claim package** format exported from the Farewell UI:
   "encryptedPayload": "0x...",
   "contentHash": "0x...",
   "subject": "A Farewell Message",
-  "owner": "Alice",
+  "owner": "0x...",
+  "senderName": "Alice",
   "messageIndex": 0
 }
 ```
 
 **Required fields**: `skShare`, `encryptedPayload`
 
-**Optional fields**: `type`, `recipients`, `contentHash`, `subject`, `owner`, `messageIndex`
+**Optional fields**: `type`, `recipients`, `contentHash`, `subject`, `owner`, `senderName`, `messageIndex`
 
 ### Encryption details
 

@@ -122,6 +122,12 @@ pytest
 pytest --cov=farewell_decrypter --cov-report=term-missing
 ```
 
+## Support the Project
+
+If you find Farewell interesting or useful, consider sending a donation on Ethereum or any EVM-compatible chain:
+
+**`0x10fcc6f07a84bBaCd26e2827122be09830243da5`**
+
 ## Disclaimer
 
 This is a proof-of-concept tool for the Farewell protocol. The Farewell protocol is experimental software developed by a [Zama](https://zama.ai) employee as a personal project. It is not a Zama product and carries no warranty.
